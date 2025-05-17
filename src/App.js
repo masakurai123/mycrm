@@ -1,4 +1,21 @@
 // src/App.js
+// import React from "react";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import MainPage from "./MainPage";
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<MainPage />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+// src/App.js
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -27,6 +44,7 @@ import {
 } from '@mui/material';
 
 function App() {
+// function MainPage() {
   const [clients, setClients] = useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
   const [clientName, setClientName] = useState("");
@@ -228,6 +246,12 @@ function App() {
 
     </Container>
 
+  );
+}
+
+export default App;
+// export default MainPage;
+
     // <div style={{ padding: "2rem" }}>
 
     //   <h2 style={{ margin: 0 }}>顧客情報 登録・編集フォーム</h2>
@@ -292,11 +316,4 @@ function App() {
     //       ))}
     //     </tbody>
     //   </table>
-
-
-
     // </div>
-  );
-}
-
-export default App;
