@@ -13,6 +13,18 @@ import {
   signOut,
 } from "firebase/auth";
 import { db, auth } from "./firebase";
+import {
+  TextField,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Container,
+  Paper,
+  Typography
+} from '@mui/material';
 
 function App() {
   const [clients, setClients] = useState([]);
@@ -145,78 +157,145 @@ function App() {
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
 
-      <h2 style={{ margin: 0 }}>顧客情報 登録・編集フォーム</h2>
+    <Container maxWidth="md" style={{ marginTop: "2rem" }}>
+      <Paper elevation={3} style={{ padding: "2rem" }}>
+        <Typography variant="h5">顧客情報 登録・編集フォーム</Typography>
+        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+          <TextField
+            label="氏名"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            required
+          />
+          <TextField
+            label="カナ"
+            value={clientKana}
+            onChange={(e) => setClientKana(e.target.value)}
+            required
+          />
+          <Button type="submit" variant="contained" color="primary">
+            {editId ? "更新" : "追加"}
+          </Button>
+        </form>
+      </Paper>
 
-      <form onSubmit={handleSubmit}>
-
-        {/* 氏名テキスト */}
-        <input
-          type="text"
-          placeholder="氏名"
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
-          required
-          style={{ marginRight: "4px" }}
+      <Paper elevation={3} style={{ padding: "2rem", marginTop: "2rem" }}>
+        <Typography variant="h5">顧客一覧</Typography>
+        <TextField
+          fullWidth
+          label="氏名で検索"
+          value={searchKeyword}
+          onChange={handleSearch}
+          style={{ margin: "1rem 0" }}
         />
-
-        {/* カナテキスト */}
-        <input
-          type="text"
-          placeholder="カナ"
-          value={clientKana}
-          onChange={(e) => setClientKana(e.target.value)}
-          required
-          style={{ marginRight: "4px" }}
-        />
-
-        <button type="submit">{editId ? "更新" : "追加"}</button>
-
-      </form>
-
-      <h2 style={{ margin: 0, marginTop: "16px" }}>顧客一覧</h2>
-
-      {/* 検索テキスト */}
-      <input
-        type="text"
-        placeholder="氏名で検索"
-        value={searchKeyword}
-        onChange={handleSearch}
-        style={{ marginBottom: "1rem", display: "block" }}
-      />
-
-      {/* 顧客リスト */}
-      <table border="1" cellPadding="10" style={{ margin: 0, marginTop: "32px" }}>
-        <thead>
-          <tr>
-            {/* <th>ID</th> */}
-            <th>カナ</th>
-            <th>氏名</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredClients.map((client) => (
-            <tr key={client.id}>
-              {/* <td>{client.id}</td> */}
-              <td>{client.client_kana}</td>
-              <td>{client.client_name}</td>
-              <td>
-                <button onClick={() => startEdit(client)}>編集</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>カナ</TableCell>
+              <TableCell>氏名</TableCell>
+              <TableCell>操作</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredClients.map((client) => (
+              <TableRow key={client.id}>
+                <TableCell>{client.id}</TableCell>
+                <TableCell>{client.client_kana}</TableCell>
+                <TableCell>{client.client_name}</TableCell>
+                <TableCell>
+                  <Button variant="outlined" onClick={() => startEdit(client)}>編集</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
       {/* ログアウトボタン */}
-      <button
-        onClick={handleLogout}
-        style={{ marginTop: "16px", marginLeft: "330px" }}
-      >ログアウト</button>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          className="btn"
+          onClick={handleLogout}
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{ padding: "1rem", marginTop: "2rem" }}
+        >
+          ログアウト
+        </Button>
+      </div>
 
-    </div>
+    </Container>
+
+    // <div style={{ padding: "2rem" }}>
+
+    //   <h2 style={{ margin: 0 }}>顧客情報 登録・編集フォーム</h2>
+
+    //   <form onSubmit={handleSubmit}>
+
+    //     {/* 氏名テキスト */}
+    //     <input
+    //       type="text"
+    //       placeholder="氏名"
+    //       value={clientName}
+    //       onChange={(e) => setClientName(e.target.value)}
+    //       required
+    //       style={{ marginRight: "4px" }}
+    //     />
+
+    //     {/* カナテキスト */}
+    //     <input
+    //       type="text"
+    //       placeholder="カナ"
+    //       value={clientKana}
+    //       onChange={(e) => setClientKana(e.target.value)}
+    //       required
+    //       style={{ marginRight: "4px" }}
+    //     />
+
+    //     <button type="submit">{editId ? "更新" : "追加"}</button>
+
+    //   </form>
+
+    //   <h2 style={{ margin: 0, marginTop: "16px" }}>顧客一覧</h2>
+
+    //   {/* 検索テキスト */}
+    //   <input
+    //     type="text"
+    //     placeholder="氏名で検索"
+    //     value={searchKeyword}
+    //     onChange={handleSearch}
+    //     style={{ marginBottom: "1rem", display: "block" }}
+    //   />
+
+    //   {/* 顧客リスト */}
+    //   <table border="1" cellPadding="10" style={{ margin: 0, marginTop: "32px" }}>
+    //     <thead>
+    //       <tr>
+    //         {/* <th>ID</th> */}
+    //         <th>カナ</th>
+    //         <th>氏名</th>
+    //         <th>操作</th>
+    //       </tr>
+    //     </thead>
+    //     <tbody>
+    //       {filteredClients.map((client) => (
+    //         <tr key={client.id}>
+    //           {/* <td>{client.id}</td> */}
+    //           <td>{client.client_kana}</td>
+    //           <td>{client.client_name}</td>
+    //           <td>
+    //             <button onClick={() => startEdit(client)}>編集</button>
+    //           </td>
+    //         </tr>
+    //       ))}
+    //     </tbody>
+    //   </table>
+
+
+
+    // </div>
   );
 }
 
